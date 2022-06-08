@@ -10,7 +10,7 @@
 #define STM32_GPIOC_OTYPER(STM32_GPIOC_BASE + STM32_GPIO_OTYPER_OFFSET)
 #define STM32_GPIOC_PUPDR(STM32_GPIOC_BASE + STM32_GPIO_PUPDR_OFFSET)
 #define RCC_AHB1ENR_GPIOCEN (1 << 2)
-#define GPIO_MODER_INPUT(0)/* Input */
+#define GPIO_MODER_INPUT(Input = 0)/* Input */
 #define GPIO_MODER_OUTPUT(1)/* General purpose output mode */
 #define GPIO_MODER_ALT(2)/* Alternate mode */
 #define GPIO_MODER_ANALOG(3)/* Analog mode */
@@ -25,6 +25,8 @@
 #define GPIO_PUPDR_PULLDOWN(2)/* Pull-down */
 #define GPIO_PUPDR13_SHIFT(26)
 #define GPIO_PUPDR13_MASK(3 << GPIO_PUPDR13_SHIFT)
+#define GPIO_BSRR_SET(n)(1 << (n))
+#define GPIO_BSRR_RST(n)(1 << (n + 16))
 
 
 int main(int argc,char *argv[]){
@@ -51,6 +53,14 @@ int main(int argc,char *argv[]){
     *pGPIOC_PUPDR = reg;
 
 
-    while(1);
+    static char fw_version[] = {'V', 'i','.','0'};
+    static uint32_t led_status;
+    uint32_t LED_DELAY = 150;
+    while(1){
+        *pGPIOC_BSRR = GPIO_BSRR_SET(13);
+        for(uint32_ti =0; i < LED_DELAY; i++);
+        *pGPIOC_BSRR = GPIO_BSRR_RST(13);
+        for(uint32_ti =0; i < LED_DELAY; i++);
+    };
     return EXIT_SUCCESS;
 }
