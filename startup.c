@@ -67,6 +67,3 @@ void default_handler(void){
 
 }
 
-void nmi_handler(void){
-    while(1){};
-}
