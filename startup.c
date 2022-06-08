@@ -1,3 +1,4 @@
+#include <stdint.h>
 #define SRAM_START 0x20000000U
 #define SRAM_SIZE (128U * 1024U)
 #define SRAM_END ((SRAM_START) + (SRAM_SIZE))
@@ -5,11 +6,12 @@
 #define STACK_START SRAM_END
 
 void reset_handler(void);
+void nmi_handler(void);
 
 uint32_t vectors[] __attribute__((section(".isr_vectors"))) = {
 
     STACK_START,                /* 0x0000 0000 */
-    reset_handler,              /* 0x0000 0004 */
+    (uint32_t)reset_handler,    /* 0x0000 0004 */
     0,                          /* 0x0000 0008 */
     0,                          /* 0x0000 000c */
     0,                          /* 0x0000 0010 */
@@ -28,4 +30,8 @@ uint32_t vectors[] __attribute__((section(".isr_vectors"))) = {
 
 void reset_handler(void){
 
+}
+
+void nmi_handler(void){
+    while(1){};
 }
