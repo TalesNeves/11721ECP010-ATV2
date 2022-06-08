@@ -8,4 +8,4 @@ main.o: main.c
 startup.o: startup.c 
 	$(CC) $(CFLAGS) -o $@ $^
 clean:
-	rm -f *.0
+	rm *.0
