@@ -49,8 +49,8 @@ uint32_t vectors[] __attribute__((section(".isr_vectors"))) = {
 void reset_handler(void){
     uint32_t i;
     uint32_t size = (uint32_t)&_edata - (uint32_t)&_sdata;
-    uint32_t *pDst = (uint8_t)&_sdata;
-    uint8_t *pSrc = (uint8_t)&_etext;
+    uint8_t *pDst = (uint8_t*)&_sdata;
+    uint8_t *pSrc = (uint8_t*)&_etext;
 
     for(i = 0; i<size; i++){
         *pDst++ = *pSrc++;
