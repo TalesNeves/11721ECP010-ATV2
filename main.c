@@ -19,7 +19,6 @@
 #define STM32_GPIOC_BSRR            (STM32_GPIOC_BASE + STM32_GPIO_BSRR_OFFSET)
 
 #define STM32_GPIOA_MODER           (STM32_GPIOA_BASE + STM32_GPIO_MODER_OFFSET)
-#define STM32_GPIOA_OTYPER          (STM32_GPIOA_BASE + STM32_GPIO_OTYPER_OFFSET)
 #define STM32_GPIOA_PUPDR           (STM32_GPIOA_BASE + STM32_GPIO_PUPDR_OFFSET)
 #define STM32_GPIOA_IDR             (STM32_GPIOA_BASE + STM32_GPIO_IDR_OFFSET)  
 
@@ -52,9 +51,9 @@
 
 /*INPUT BUTTON*/
 #define GPIO_MODERPA0_SHIFT          (0) /*MODER0 starts at the first bit on the GPIO port mode register (GPIOx_MODER).Reference: Section 8.4.1 */
-#define GPIO_MODERPA0_MASK           (GPIO_MODER_INPUT << GPIO_MODER13_SHIFT) /*set port13 port mode to analog*/
+#define GPIO_MODERPA0_MASK           (GPIO_MODER_INPUT << GPIO_MODERPA0_SHIFT) /*set port13 port mode to analog*/
 
-#define GPIO_PUPDRPA0_SHIFT          (0) /*MODER13 starts at the first bit on the  GPIO port pull-up/pull-down register (GPIOx_PUPDR).Reference: Section 8.4.4*/
+#define GPIO_PUPDRPA0_SHIFT          (0) /*MODER0 starts at the first bit on the  GPIO port pull-up/pull-down register (GPIOx_PUPDR).Reference: Section 8.4.4*/
 #define GPIO_PUPDRPA0_MASK           (GPIO_PUPDR_PULLUP << GPIO_PUPDR13_SHIFT)
 
 #define GPIO_IDRPA0_SHIFT            (0)
@@ -63,10 +62,14 @@ int main(int argc,char *argv[]){
     uint32_t reg;
 
     uint32_t *pRCC_AHB1ENR  = (uint32_t *)STM32_RCC_AHB1ENR;
+
     uint32_t *pGPIOC_MODER  = (uint32_t *)STM32_GPIOC_MODER;
     uint32_t *pGPIOC_OTYPER = (uint32_t *)STM32_GPIOC_OTYPER;
     uint32_t *pGPIOC_PUPDR  = (uint32_t *)STM32_GPIOC_PUPDR;
     uint32_t *pGPIOC_BSRR   = (uint32_t *)STM32_GPIOC_BSRR;
+
+    uint32_t *pGPIOA_MODER  = (uint32_t *)STM32_GPIOA_MODER;
+    uint32_t *pGPIOA_PUPDR  = (uint32_t *)STM32_GPIOA_PUPDR;
     uint32_t *pGPIOA_IDR    = (uint32_t *)STM32_GPIOA_IDR;
     reg  = *pRCC_AHB1ENR;
     reg |= RCC_AHB1ENR_GPIOCEN;
@@ -85,6 +88,18 @@ int main(int argc,char *argv[]){
     reg |= (GPIO_PUPDR_NONE << GPIO_PUPDR13_SHIFT);
     *pGPIOC_PUPDR = reg;
 
+    reg = *pGPIOA_MODER;
+    reg &= ~(GPIO_MODERPA0_MASK);
+    reg |= (GPIO_MODER_INPUT << GPIO_MODERPA0_SHIFT);
+    *pGPIOA_MODER = reg;
+    reg = *pGPIOA_PUPDR;
+    reg &= ~(GPIO_PUPDRPA0_MASK);
+    reg |= (GPIO_PUPDR_PULLUP << GPIO_PUPDRPA0_SHIFT);
+    *pGPIOA_PUPDR=reg;
+    reg = *pGPIOA_IDR;
+    reg &= ~(0);
+    reg |= (0);
+    *pGPIOA_PUPDR=reg;
 
     static char fw_version[] = {'V', 'i','.','0'};
     static uint32_t led_status;
