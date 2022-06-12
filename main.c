@@ -54,7 +54,7 @@
 #define GPIO_MODERPA0_SHIFT          (0) /*MODER0 starts at the first bit on the GPIO port mode register (GPIOx_MODER).Reference: Section 8.4.1 */
 #define GPIO_MODERPA0_MASK           (GPIO_MODER_INPUT << GPIO_MODER13_SHIFT) /*set port13 port mode to analog*/
 
-#define GPIO_PUPDRPA0_SHIFT          (0) /*MODER13 starts at the first bit on the  GPIO port pull-up/pull-down register (GPIOx_PUPDR).Reference: Section 8.4.4*/
+#define GPIO_PUPDRPA0_SHIFT          (0) /*PUPDRPA0 starts at the first bit on the  GPIO port pull-up/pull-down register (GPIOx_PUPDR).Reference: Section 8.4.4*/
 #define GPIO_PUPDRPA0_MASK           (GPIO_PUPDR_PULLUP << GPIO_PUPDR13_SHIFT)
 
 #define GPIO_IDRPA0_SHIFT            (0)
